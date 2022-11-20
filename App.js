@@ -2,10 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from './pages/LoginScreen';
-import PokemonsScreen from './pages/PokemonsScreen';
-import PokemonScreen from './pages/PokemonScreen';
-import FavoritosScreen from './pages/FavoritosScreen';
+import LoginScreen from './screens/LoginScreen';
+import PokemonsScreen from './screens/PokemonsScreen';
+import PokemonScreen from './screens/PokemonScreen';
+import FavoritosScreen from './screens/FavoritosScreen';
 
 export default function App() {
 
@@ -13,7 +13,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
