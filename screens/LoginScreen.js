@@ -4,7 +4,7 @@ import LabeledInput from '../components/LabeledInput';
 import image from '../assets/bg.jpg'
 import { useState } from 'react';
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
 
   const [login, setLogin] = useState({
     nome: '',
@@ -35,13 +35,13 @@ export default function LoginScreen() {
   const [erro, setErro] = useState('');
 
   const onPressEntrar = () => {
-    var achou = false, valido = false;
+    let achou = false, valido = false;
     logins.map((value) => {
       if(value.nome == login.nome){
         achou = true;
         if(value.senha == login.senha){
           valido = true
-          setErro('LOGADO')
+          navigation.navigate('Pokemons');
         }
       }
     })
@@ -100,7 +100,7 @@ export default function LoginScreen() {
               }))}
             />
             <Button title="Cadastrar" onPress={() => {
-              var arr = logins;
+              let arr = logins;
               logins.push(cadastro);
               setLogins(arr);
               setOpen(false)
