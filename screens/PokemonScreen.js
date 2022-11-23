@@ -38,7 +38,10 @@ export default function PokemonScreen() {
   return (
     <View>
       <Text>{ pokemon && pokemon.name }</Text>
-      <Image style={ styles.logo } source={ pokemon && basicInfo.img } />
+      <Image
+        style={ styles.logo }
+        source={ pokemon && `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
+      />
       <Text>{ pokemon && `capture rate: ${pokemon.capture_rate}` }</Text>
       <Text>{ pokemon && `dex number: ${pokemon.id}` }</Text>
       <Text>{ pokemon && `base happiness: ${pokemon.base_happiness}` }</Text>

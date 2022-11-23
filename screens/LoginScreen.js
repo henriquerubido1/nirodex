@@ -1,8 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { ImageBackground, Button, StyleSheet, Text, TextInput, View, Modal } from 'react-native';
 import LabeledInput from '../components/LabeledInput';
-import image from '../assets/bg.jpg'
+import image from '../assets/bg.jpg';
+import pokedexLogo from '../assets/pokedex.png';
 import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  ImageBackground,
+  TouchableHighlight,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Modal,
+  Image,
+} from 'react-native';
 
 export default function LoginScreen({navigation}) {
 
@@ -41,6 +52,7 @@ export default function LoginScreen({navigation}) {
         achou = true;
         if(value.senha == login.senha){
           valido = true
+          AsyncStorage.setItem('user', { logged: true, username: login.nome})
           navigation.navigate('Pokemons');
         }
       }
@@ -67,17 +79,25 @@ export default function LoginScreen({navigation}) {
     <>
       <View style={styles.pageContainer}>
         <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+          <Image
+              style={styles.logo}
+              source={pokedexLogo}
+          />
           <View style={styles.loginPanel}>
-            <LabeledInput label='Nome:' onChange={(e) => setLogin(prev => ({
+            <TextInput placeholder='login' onChange={(e) => setLogin(prev => ({
                 ...prev, nome: e.target.value
               }))}
             />
-            <LabeledInput label='Senha:' onChange={(e) => setLogin(prev => ({
+            <TextInput placeholder='senha' onChange={(e) => setLogin(prev => ({
                 ...prev, senha: e.target.value
               }))}
             />
-            <Button title="Entrar" onPress={onPressEntrar}/>
-            <Button title="Cadastrar" onPress={onPressCadastrar}/>
+            <TouchableHighlight onPress={onPressEntrar}>
+              <Text>Login</Text>
+            </TouchableHighlight>
+            <TouchableHighlight onPress={onPressCadastrar}>
+              <Text>Cadrastrar-se</Text>
+            </TouchableHighlight>
             { erro != '' &&
               <Text style={styles.erro}>{erro}</Text>
             }
@@ -91,21 +111,25 @@ export default function LoginScreen({navigation}) {
       >
         <View style={styles.shadow}>
           <View style={styles.modalView}>
-          <LabeledInput label='Nome:' onChange={(e) => setCadastro(prev => ({
+          <TextInput placeholder='login' onChange={(e) => setCadastro(prev => ({
                 ...prev, nome: e.target.value
               }))}
             />
-            <LabeledInput label='Senha:' onChange={(e) => setCadastro(prev => ({
+            <TextInput placeholder='senha' onChange={(e) => setCadastro(prev => ({
                 ...prev, senha: e.target.value
               }))}
             />
-            <Button title="Cadastrar" onPress={() => {
+            <TouchableHighlight onPress={() => {
               let arr = logins;
               logins.push(cadastro);
               setLogins(arr);
               setOpen(false)
-            }}/>
-            <Button title="Cancelar" onPress={() => {setOpen(false)}}/>
+            }}>
+              <Text>Cadastrar-se</Text>
+            </TouchableHighlight>
+            <TouchableHighlight onPress={() => {setOpen(false)}}>
+            <Text>Cancelar</Text>
+            </TouchableHighlight>
           </View>
         </View>
       </Modal>
@@ -151,5 +175,11 @@ const styles = StyleSheet.create({
     maxWidth: '350px',
     padding: 10,
     gap: 15
+  },
+  logo: {
+    width: '80%',
+    height: '8%',
+    marginBottom: '15%',
+    marginTop: '-30%',
   },
 });
